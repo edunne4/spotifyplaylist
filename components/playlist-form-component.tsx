@@ -68,6 +68,8 @@ export default function PlaylistForm() {
     console.log('Generating playlist with:', { prompt, genres });
   };
 
+  const isSubmitDisabled = prompt.trim() === '' && genres.length === 0;
+
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
       <Input
@@ -75,7 +77,6 @@ export default function PlaylistForm() {
         placeholder="Enter your playlist prompt"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        required
         className="bg-background text-foreground border-input"
       />
       <div className="flex space-x-2">
@@ -91,7 +92,7 @@ export default function PlaylistForm() {
         <Button 
           type="button" 
           onClick={handleAddGenre} 
-          disabled={genres.length >= MAX_GENRES}
+          disabled={genres.length >= MAX_GENRES || !currentGenre.trim()}
           className="bg-primary text-primary-foreground hover:bg-primary/90"
         >
           Add Genre
@@ -130,6 +131,7 @@ export default function PlaylistForm() {
       <Button 
         type="submit"
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+        disabled={isSubmitDisabled}
       >
         Generate Playlist
       </Button>
