@@ -53,32 +53,35 @@ export default function PlaylistList() {
       <h2 className="text-2xl font-semibold mb-4">Your Playlists</h2>
       <ul className="space-y-4">
         {playlists.map((playlist) => (
-          <li key={playlist.id} className="border border-gray-700 rounded-lg p-4 flex items-start space-x-4 bg-gray-800">
-            <img src={playlist.image} alt={playlist.name} className="w-16 h-16 object-cover rounded" />
-            <div>
-              <h3 className="font-semibold">{playlist.name}</h3>
-              <p className="text-sm text-gray-400">{playlist.description}</p>
-              {playlist.genres.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-sm font-semibold">Genres:</p>
-                  <ul className="text-sm text-gray-400">
-                    {playlist.genres.map((genre, index) => (
-                      <li key={index}>
-                        {genre.name}: {genre.percentage}%
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              <a
-                href={playlist.spotifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-green-500 hover:underline text-sm mt-2 inline-block"
-              >
-                Open in Spotify
-              </a>
+          <li key={playlist.id} className="border border-gray-700 rounded-lg p-4 bg-gray-800">
+            <div className="flex items-start space-x-4 mb-4">
+              <img src={playlist.image} alt={playlist.name} className="w-16 h-16 object-cover rounded" />
+              <div>
+                <h3 className="font-semibold">{playlist.name}</h3>
+                <p className="text-sm text-gray-400">{playlist.description}</p>
+                <a
+                  href={playlist.spotifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-500 hover:underline text-sm mt-2 inline-block"
+                >
+                  Open in Spotify
+                </a>
+              </div>
             </div>
+            {playlist.genres.length > 0 && (
+              <div>
+                <p className="text-sm font-semibold mb-2">Genres:</p>
+                <div className="flex flex-wrap gap-2">
+                  {playlist.genres.map((genre, index) => (
+                    <div key={index} className="bg-gray-700 rounded-lg p-2 text-sm">
+                      <span className="font-medium">{genre.name}</span>
+                      <span className="ml-2 text-gray-400">{genre.percentage}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>
