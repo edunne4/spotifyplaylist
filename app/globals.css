@@ -90,3 +90,12 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Add this at the end of the file */
+.custom-slider [role="slider"] {
+  @apply bg-primary;
+}
+
+.custom-slider [data-orientation="horizontal"] .slider-track {
+  @apply bg-primary;
+}

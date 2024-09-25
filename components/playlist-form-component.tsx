@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, KeyboardEvent } from 'react';
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Slider } from "./ui/slider";
@@ -17,6 +17,7 @@ export default function PlaylistForm() {
   const [prompt, setPrompt] = useState('');
   const [currentGenre, setCurrentGenre] = useState('');
   const [genres, setGenres] = useState<Genre[]>([]);
+  const genreInputRef = useRef<HTMLInputElement>(null);
 
   const normalizePercentages = (updatedGenres: Genre[]): Genre[] => {
     const total = updatedGenres.reduce((sum, genre) => sum + genre.percentage, 0);
@@ -40,6 +41,14 @@ export default function PlaylistForm() {
       
       setGenres(normalizePercentages(newGenres));
       setCurrentGenre('');
+      genreInputRef.current?.focus();
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddGenre();
     }
   };
 
@@ -67,7 +76,7 @@ export default function PlaylistForm() {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         required
-        className="bg-gray-800 text-white border-gray-700"
+        className="bg-background text-foreground border-input"
       />
       <div className="flex space-x-2">
         <Input
@@ -75,19 +84,21 @@ export default function PlaylistForm() {
           placeholder="Enter a genre"
           value={currentGenre}
           onChange={(e) => setCurrentGenre(e.target.value)}
-          className="bg-gray-800 text-white border-gray-700"
+          onKeyPress={handleKeyPress}
+          ref={genreInputRef}
+          className="bg-background text-foreground border-input"
         />
         <Button 
           type="button" 
           onClick={handleAddGenre} 
           disabled={genres.length >= MAX_GENRES}
-          className="bg-gray-300 text-gray-800 hover:bg-gray-400"
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
         >
           Add Genre
         </Button>
       </div>
       {genres.map((genre, index) => (
-        <div key={index} className="space-y-2 bg-gray-800 p-4 rounded-lg">
+        <div key={index} className="space-y-2 bg-card p-4 rounded-lg">
           <div className="flex justify-between items-center">
             <span>{genre.name}</span>
             <Button
@@ -95,7 +106,7 @@ export default function PlaylistForm() {
               variant="ghost"
               size="sm"
               onClick={() => handleRemoveGenre(index)}
-              className="text-red-500 hover:text-red-700"
+              className="text-destructive hover:text-destructive/90"
             >
               <X size={16} />
             </Button>
@@ -111,14 +122,14 @@ export default function PlaylistForm() {
               step={1}
               value={[genre.percentage]}
               onValueChange={(value) => handleGenrePercentageChange(index, value[0])}
-              className="bg-gray-800"
+              className="custom-slider"
             />
           </div>
         </div>
       ))}
       <Button 
         type="submit"
-        className="w-full bg-gray-300 text-gray-800 hover:bg-gray-400"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
       >
         Generate Playlist
       </Button>
