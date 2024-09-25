@@ -98,7 +98,7 @@ export default function PlaylistForm() {
         </Button>
       </div>
       {genres.map((genre, index) => (
-        <div key={index} className="space-y-2 bg-card p-4 rounded-lg">
+        <div key={index} className="space-y-2 bg-card text-card-foreground p-4 rounded-lg border border-border">
           <div className="flex justify-between items-center">
             <span>{genre.name}</span>
             <Button
