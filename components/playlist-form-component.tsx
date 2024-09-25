@@ -98,6 +98,13 @@ export default function PlaylistForm() {
           Add Genre
         </Button>
       </div>
+      <Button 
+        type="submit"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+        disabled={isSubmitDisabled}
+      >
+        Generate Playlist
+      </Button>
       {genres.map((genre, index) => (
         <div key={index} className="space-y-2 bg-card text-card-foreground p-4 rounded-lg border border-border">
           <div className="flex justify-between items-center">
@@ -128,13 +135,6 @@ export default function PlaylistForm() {
           </div>
         </div>
       ))}
-      <Button 
-        type="submit"
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-        disabled={isSubmitDisabled}
-      >
-        Generate Playlist
-      </Button>
     </form>
   );
 }
