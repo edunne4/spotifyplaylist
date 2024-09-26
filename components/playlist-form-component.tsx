@@ -66,6 +66,13 @@ export default function PlaylistForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Generating playlist with:', { prompt, genres });
+    const response = await fetch('https://hook.us1.make.com/3d1jpgbnzykhnhrxiu93lvlx3oqrkujg', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt, genres }),
+    });
   };
 
   const isSubmitDisabled = prompt.trim() === '' && genres.length === 0;
